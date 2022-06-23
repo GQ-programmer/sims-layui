@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.StudentDao">
+
+    <select id="findAll" parameterType="student" resultType="student">
+        select * from s_stu
+        <where>
+            <if test="sname!=null and sname!='' ">
+                and  sname like  '%${sname}%'
+            </if>
+            <if test="sid!=null and sid!=''">
+                and  sid like #{sid}
+            </if>
+
+        </where>
+    </select>
+
+    <update id="updateStu" parameterType="student">
+        update s_stu set sname = #{sname},sex = #{sex},birthday = #{birthday}
+                       ,address = #{address},tel = #{tel},cname = #{cname},dname = #{dname}
+                        where sid = #{sid}
+    </update>
+
+    <insert id="addStu" parameterType="student">
+        insert into s_stu(sid,sname,sex,birthday,address,tel,cname,dname)
+          values (#{sid},#{sname},#{sex},#{birthday},#{address},#{tel},#{cname},#{dname})
+    </insert>
+
+    <delete id="delStu" parameterType="String">
+        delete from s_stu where sid = #{sid}
+    </delete>
+
+    <select id="findOne" parameterType="student" resultType="student">
+        select * from s_stu where sid = #{sid}
+    </select>
+</mapper>

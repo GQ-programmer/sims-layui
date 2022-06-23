@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+  <!--开启注解扫描,希望处理service和dao，controller不需要Spring框架去处理-->
+  <context:component-scan base-package="pub.zgq">
+    <!-- 配置那些注解不扫描 -->
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+  </context:component-scan>
+  <!--spring整合mybatis-->
+  <!--引入外部属性文件-->
+  <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+  <!--配置数据库连接池-->
+  <bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource">
+    <property name="driverClassName" value="${prop.driverClassName}"></property>
+    <property name="url" value="${prop.url}"></property>
+    <property name="username" value="${prop.username}"></property>
+    <property name="password" value="${prop.password}"></property>
+  </bean>
+
+  <!--配置SqlSessionFactory工厂-->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="datasource"/>
+    <property name="mapperLocations" value="classpath:pub/zgq/mapping/*.xml"/>
+    <!-- typeAliasesPackage 以包为单位，批量给包中的类取类别名 如果存在多个包同时需要取类别名，包和包之间，采用;或者,间隔 -->
+    <property name="typeAliasesPackage" value="pub.zgq.pojo"></property>
+  </bean>
+  <!--配置映射配置 AccountDao所在的包-->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="pub.zgq.dao"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+
+  </bean>
+
+  <!--配置声明式事务管理-->
+  <!--配置事务管理器-->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="datasource"/>
+  </bean>
+  <!--配置事务通知-->
+  <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    <tx:attributes>
+      <tx:method name="find" read-only="true"/>
+      <tx:method name="*" isolation="DEFAULT"/>
+    </tx:attributes>
+  </tx:advice>
+
+  <!--配置aop增强-->
+  <aop:config>
+    <aop:advisor advice-ref="txAdvice" pointcut="execution( * pub.zgq.service.impl.*ServiceImpl.*(..))"></aop:advisor>
+  </aop:config>
+</beans>

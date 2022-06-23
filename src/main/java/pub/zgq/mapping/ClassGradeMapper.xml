@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.ClassGradeDao">
+
+    <insert id="insertOne" parameterType="classGrade">
+        insert into s_classgrade (c_classId, c_className, class_grade, update_time)
+        values (#{c_classId}, #{c_className}, #{class_grade}, #{update_time})
+    </insert>
+
+    <update id="updateClassGrade" parameterType="classGrade">
+        update s_classgrade set class_grade = #{class_grade}, update_time =#{update_time}
+    </update>
+
+    <delete id="deleteClassGrade" parameterType="string">
+        delete from s_classgrade where cg_id = #{cg_id}
+    </delete>
+
+
+    <select id="selectAll" parameterType="classGrade" resultType="pub.zgq.pojo.ClassGrade">
+        select * from s_classgrade
+        <where>
+            <if test="c_classId!=null and c_classId!='' ">
+                and  c_classId like  '%${c_classId}%'
+            </if>
+            <if test="c_className!=null and c_className!=''">
+                and  c_className like '%${c_className}%'
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectOne" resultType="pub.zgq.pojo.ClassGrade">
+        select * from s_classgrade where c_classId = #{c_classId};
+    </select>
+
+</mapper>

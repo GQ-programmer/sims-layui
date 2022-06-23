@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.DormRepairDao">
+
+    <select id="selectAll" parameterType="dormRepair" resultType="dormRepair">
+        select * from s_dormrepair
+        <where>
+            <if test="d_dormbuilding!=null and d_dormbuilding!='' ">
+                and  d_dormbuilding like  '%${d_dormbuilding}%'
+            </if>
+            <if test="d_dormitoryid!=null and d_dormitoryid!=''">
+                and  d_dormitoryid like '%${d_dormitoryid}%'
+            </if>
+
+        </where>
+    </select>
+    <select id="selectOne"  resultType="pub.zgq.pojo.DormRepair" >
+        select * from s_dormRepair where d_dormitoryid = #{d_dormitoryid} and d_dormbuilding = #{d_dormbuilding}
+    </select>
+
+    <insert id="insertOne" parameterType="dormRepair">
+        insert into s_dormRepair(d_dormbuilding, d_dormitoryid, r_name, r_reason)
+        values (#{d_dormbuilding}, #{d_dormitoryid}, #{r_name}, #{r_reason})
+    </insert>
+    <update id="updateByR_id" parameterType="dormRepair">
+        update s_dormRepair set d_dormbuilding = #{d_dormbuilding},d_dormitoryid = #{d_dormitoryid},r_name = #{r_name}
+                             ,r_reason = #{r_reason}
+        where r_id = #{r_id}
+    </update>
+    <delete id="deleteDormRepair">
+        delete from s_dormRepair where r_id = #{r_id}
+    </delete>
+
+
+
+
+</mapper>

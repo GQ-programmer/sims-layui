@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日志列表</title>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <link rel="shortcut icon" th:href="@{/img/favicon.ico}" />
+  <script th:src="@{/layui/layui.js}"></script>
+</head>
+
+
+<body>
+<div class="layui-fluid" style="padding-top: 10px;"></div>
+
+<!--定义表格-->
+<table id="table1" lay-filter="test"></table>
+
+<script>
+  layui.use(['table', 'form', 'layer'], function () {
+    var layer = layui.layer;
+    var table = layui.table;
+    var form = layui.form;
+    var $ = layui.jquery;//获取jquery对象
+
+    table.render({
+      elem: '#table1'
+      , title: '日志列表'
+      , url: '/log/findAll'
+      , height: 'full'
+      // , page: true  //开启分页
+      , limits: [5, 10, 15]
+      //设置表格头工具栏
+      , toolbar: "#toolbarDemo"
+      , id: 'idTest'
+      , defaultToolbar: ['print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+        title: '提示'
+        , layEvent: 'LAYTABLE_TIPS'
+        , icon: 'layui-icon-tips'
+      }]
+      , cols: [
+        [ //表头
+          //设置序列号
+          { field: 'aa', type: 'numbers' },
+          // // 设置复选框
+          // {field: 'aa',type:'checkbox'},
+          { field: 'l_id', title: 'ID', sort: true, align: 'center', hide: 'true' }
+          , { field: 'username', title: '用户名', align: 'center' }
+          , { field: 'name', title: '姓名', align: 'center' }
+          , { field: 'sex', title: '性别', align: 'center' }
+          , { field: 'tel', title: '电话', align: 'center' }
+          , { field: 'login_time', title: '登录时间', align: 'center', sort: true }
+          // , { field: "操作", toolbar: "#barDemo", align: 'center' }//行内工具栏
+        ]
+      ]
+      , data: [
+        { "l_id": "1", "username": "zzz", "name": "张xx", "sex": "男", "tel": "12345678910", "login_time":"2022-6-20 11:04" },
+        { "l_id": "2", "username": "lll", "name": "李xx", "sex": "女", "tel": "12345678910", "login_time":"2022-6-20 11:04" },
+        { "l_id": "3", "username": "www", "name": "王xx", "sex": "女", "tel": "12345678910", "login_time":"2022-6-20 11:04" },
+        { "l_id": "4", "username": "ccc", "name": "陈xx", "sex": "男", "tel": "12345678910" , "login_time":"2022-6-20 11:04"},
+      ]
+    });
+
+
+
+  });
+</script>
+</body>
+
+</html>

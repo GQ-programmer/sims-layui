@@ -1,0 +1,8 @@
+
+D
+java:S1125."'Remove the unnecessary boolean literal.(«¸þ•8Ô’¨©˜0
+I
+java:S11251"'Remove the unnecessary boolean literal.(Õœêüüÿÿÿÿ8Ô’¨©˜0
+r	java:S117:"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ðñäíøÿÿÿÿ8Œ‡Í­˜0
+Y
+java:S25891"7Remove this expression which always evaluates to "true"(Õœêüüÿÿÿÿ8ã’¨©˜0

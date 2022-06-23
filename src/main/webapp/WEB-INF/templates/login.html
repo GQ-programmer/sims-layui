@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}"/>
+    <script th:src="@{/layui/layui.js}"></script>
+</head>
+<style>
+    img{
+        -webkit-user-drag: none;
+    }
+    body{
+        background-color: #eeeeee;
+    }
+    .be-content{
+        
+        max-width: 410px;
+        /* height: 1000px; */
+        margin: 75px auto;
+        background-color: #ffffff;
+        /* border: red solid; */
+        padding-bottom: 20px;
+    }
+    .ioc_text{
+        text-align: center;
+        padding-top: 30px;
+        margin-bottom: 50px;
+    }  
+    .ioc_text img{
+        /* border: red solid; */
+        height: 80px;
+    }
+    .ioc_text span{
+        display: block;
+        font-size: 13px;
+        margin-top: 11px;
+    }    
+</style>
+    
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <!-- 头部区域 -->
+    <div class="layui-header">
+        <div class="layui-logo">
+        <img style="border:red ;width:105px;height:42px" th:src="@{/img/logo.png}"/><!--sims图片-->
+        </div>
+    
+
+        <div class="layui-hide-xs" style="text-align: center;">
+        <img th:src="@{/img/logo2.png}" style="border:red ;width:220px;height:55px"><!--学生信息管理系统图片-->
+        </div>
+
+        <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item layui-show-md-inline-block"><!--layui-hide -->
+            
+            <a class='_login' href="">
+                <i class="layui-icon">
+                    &#xe626;&nbsp;
+                </i>
+            联系管理员
+            </a>
+        </ul>
+
+    </div>
+    </div>
+
+    <div>
+        <div class="be-content">
+            <div class="ioc_text">
+                <img th:src="@{/img/login/login1.png}" alt="">
+                <span>请登录您的帐户</span>
+            </div>
+            
+
+            <div style="padding-left: 50px;">
+                <form class="layui-form layui-form-pane">
+            
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label">
+                            <i class="layui-icon">
+                                &#xe66f;&nbsp;
+                            </i>
+                            用户名
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" required lay-verify="required"  placeholder="请输入用户名" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            <i class="layui-icon">
+                                &#xe673;&nbsp;&nbsp;
+                            </i>
+                            密码&nbsp;&nbsp;&nbsp;
+                        </label>
+                        <div class="layui-input-inline">
+                        <input type="password" name="password" required lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
+                        
+                    </div>
+                
+                    <!--<div class="layui-form-item">-->
+                    <!--    <div >-->
+                    <!--        <label style="font-size: 13px;">请选择登录身份：</label>-->
+                    <!--    </div>-->
+                    <!--        <input type="radio" name="identity" value="stu" title="stu" checked>-->
+                    <!--        <input type="radio" name="identity" value="teacher" title="teacher" >-->
+                    <!--        <input type="radio" name="identity" value="admin" title="admin" >-->
+                    <!--</div>-->
+
+                    <div class="layui-form-item" style="margin-top: 50px;">
+                        <div style="float: right;margin-right: 60px;">
+                          <button class="layui-btn " lay-submit lay-filter="formDemo">登录</button>
+                          <button type="reset" class="layui-btn layui-btn-primary ">重置</button>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" >
+                        <div>
+                            <p style="font-size: 13px;">
+                                <span>无法登陆?</span>
+                                <a class='_login' style="color: dodgerblue;" href="">点我</a>
+                            </p>
+                        </div>   
+                    </div>
+                    <div class="layui-form-item" > </div>
+
+                </form>
+            </div>
+
+            <div style="text-align: center;">
+                <span>Copyright © 2022</span>
+            </div>
+            
+                
+        </div>
+    </div>
+    <footer  style="background-color: #23262e; position:fixed;bottom:0;width: 100%; height:55px;">
+
+    </footer>
+
+</body>
+<script>
+    
+    layui.use(['form','element'], function(){
+        var form = layui.form;
+        var element = layui.element;
+        var layer = layui.layer;
+        var $ = layui.$;
+        
+        
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.post('user/loginUser',data.field,function (params){
+                if (params.flag){
+                    //账户存在,跳转到home
+                    alert("登录成功！")
+                    location.href = 'home';
+                }else if(!params.flag){
+                    //账户不存在
+                    layer.msg(params.msg);
+                }
+            });
+            return false;
+        });
+
+        //   表单验证
+        form.verify({
+             
+            //我们既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ] 
+        }); 
+        // 无法登陆 和 联系管理员 点击事件
+        $('._login').click(function (e) {
+            // layer.msg("aaa")
+            e.preventDefault();
+            console.log("aaa")
+            
+            layer.open({
+                title:false,
+                type: 2, 
+                shadeClose:true,
+                content: ['/admin','no'],
+                area: ['800px', '500px'],
+            });    
+        });
+          
+    });
+    </script>
+</html>

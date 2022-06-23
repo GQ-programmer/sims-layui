@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>主页</title>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <link rel="shortcut icon" th:href="@{/img/favicon.ico}" />
+</head>
+<style>
+  img{
+    -webkit-user-drag: none;
+  }
+  #fill{ 
+    width: 200px;
+    height: 44px;
+    border:red ;
+    position:fixed;
+    bottom:0;
+    background-color: #eeeeee;
+    text-align: center;
+  }
+  ._content{
+    text-align: center;
+    background-image: url('img/bg_iframe3.jpg');
+  }
+</style>
+<body>
+<div class="layui-layout layui-layout-admin">
+
+  <!-- 头部区域 -->
+  <div class="layui-header">
+    <div class="layui-logo">
+      <img style="border:red ;width:105px;height:42px" th:src="@{/img/logo.png}"/><!--sims图片-->
+    </div>
+    <!-- 头部区域（可配合layui 已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <!-- 移动端显示 -->
+      <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+        <i class="layui-icon layui-icon-spread-left"></i>
+      </li>
+
+    </ul>
+
+    <div class="layui-hide-xs" style="text-align: center;">
+      <img th:src="@{/img/logo2.png}" style="border:red ;width:220px;height:55px"><!--学生信息管理系统图片-->
+    </div>
+
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item layui-show-md-inline-block"><!--layui-hide -->
+        <a href="javascript:;">
+          <img th:src="@{/img/logo3.jpg}" class="layui-nav-img"><!--头像图片-->
+          <span class="layui-hide-xs" id="span_top_username">用户名</span>
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a  id="tips2" href="">个人信息</a></dd>
+          <dd><a class="layui-hide-xs" id="tips" href="">切换账号</a></dd>
+          <p><a th:href="@{/user/exit}">退出</a></p>
+        </dl>
+      </li>
+      <!--<li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>-->
+      <!--  <a href="javascript:;">-->
+      <!--    <i class="layui-icon layui-icon-more-vertical"></i>-->
+      <!--  </a>-->
+      <!--</li>-->
+    </ul>
+  </div>
+  <!-- 左侧导航区域 -->
+  <div class="layui-side layui-bg-black" id="tree" > <!--hidden-->
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree" lay-filter="test">
+
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">
+            <i class="layui-icon">
+              &#xe66f;&nbsp;
+            </i>学生管理</a>
+          <dl class="layui-nav-child">
+            <dd lay-unselect><a data-url="stuList" data-id="1—1" data-title="学生信息" href="" class="site-demo-active" data-type="tabAdd">
+              <i class="layui-icon">
+                &#xe602;&nbsp;
+              </i>
+              学生信息</a></dd>
+            <dd lay-unselect><a data-url="classList" data-id="1—2" data-title="班级信息" href="" class="site-demo-active" data-type="tabAdd">
+              <i class="layui-icon">
+                &#xe602;&nbsp;
+              </i>
+              班级信息</a></dd>
+          </dl>
+        </li>
+
+        <li class="layui-nav-item " >
+          <a class="glyphicon glyphicon-bed" href="javascript:;">
+            <i class="layui-icon">
+              &#xe68e;&nbsp;
+            </i>宿舍管理
+          </a>
+          <dl class="layui-nav-child">
+            <dd lay-unselect>
+              <a data-url="dorm_list" data-id="2—1" data-title="宿舍列表" href="" class="site-demo-active"
+                 data-type="tabAdd">
+                <i class="layui-icon">
+                  &#xe602;&nbsp;
+                </i>
+                宿舍列表</a>
+            </dd>
+            <dd lay-unselect><a data-url="dorm_repair" data-id="2—2" data-title="维修登记" href="" class="site-demo-active"
+                                data-type="tabAdd">
+              <i class="layui-icon">
+                &#xe602;&nbsp;
+              </i>
+              维修登记</a></dd>
+          </dl>
+        </li>
+
+
+        <li class="layui-nav-item">
+          <a class="glyphicon glyphicon-tree-conifer" href="javascript:;">
+            <i class="layui-icon">
+              &#xe62d;&nbsp;
+            </i>卫生管理
+          </a>
+          <dl class="layui-nav-child">
+            <dd lay-unselect>
+              <a data-url="dorm_grade" data-id="3—1" data-title="宿舍卫生" href="" class="site-demo-active"
+                 data-type="tabAdd">
+                <i class="layui-icon">
+                  &#xe602;&nbsp;
+                </i>
+                宿舍卫生</a>
+            </dd>
+            <dd lay-unselect>
+              <a data-url="class_grade" data-id="3—2" data-title="班级卫生" href="" class="site-demo-active"
+                 data-type="tabAdd">
+                <i class="layui-icon">
+                  &#xe602;&nbsp;
+                </i>
+                班级卫生</a></dd>
+          </dl>
+        </li>
+
+
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+            <i class="layui-icon">
+              &#xe613;&nbsp;
+            </i>访客管理
+          </a>
+          <dl class="layui-nav-child">
+            <dd lay-unselect>
+              <a data-url="visitor_list" data-id="4—1" data-title="访客列表" href="" class="site-demo-active"
+                 data-type="tabAdd">
+                <i class="layui-icon">
+                  &#xe602;&nbsp;
+                </i>
+                访客列表</a>
+            </dd>
+          </dl>
+        </li>
+
+
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+            <i class="layui-icon">
+              &#xe672;&nbsp;
+            </i>管理员信息
+          </a>
+          <dl class="layui-nav-child">
+            <dd lay-unselect>
+              <a data-url="admin_list" data-id="5—1" data-title="管理员列表" href="" class="site-demo-active"
+                 data-type="tabAdd">
+                <i class="layui-icon">
+                  &#xe602;&nbsp;
+                </i>
+                管理员列表</a>
+            </dd>
+          </dl>
+        </li>
+
+        <li class="layui-nav-item">
+          <a class="" href="javascript:;">
+            <i class="layui-icon">
+              &#xe63c;&nbsp;
+            </i>日志管理
+          </a>
+          <dl class="layui-nav-child">
+            <dd lay-unselect>
+              <a data-url="log_list" data-id="6—1" data-title="登录日志" href="" class="site-demo-active"
+                 data-type="tabAdd">
+                <i class="layui-icon">
+                  &#xe602;&nbsp;
+                </i>
+                登录日志</a>
+            </dd>
+          </dl>
+        </li>
+
+
+
+
+  </ul>
+    </div>
+  </div>
+
+  <!-- 页面主体 -->
+  <div class="layui-body" id="body"> <!--class="layui-body"-->
+    <!-- 动态tab选项卡 -->
+    <div class="layui-tab layui-tab-brief" lay-allowClose="true" lay-filter="demo" style="height: 90%;">
+        <ul class="layui-tab-title"  >
+          <li class="layui-this">首页</li>
+          <!-- <li>商品</li> -->
+          
+        </ul>
+    <div class="layui-tab-content" style="height: 100%;">
+      <div class="layui-tab-item layui-show _content" style="height: 100%;" >
+        <p style="font-family: 黑体;font-size: 25px;padding-top: 20px;">
+          <span id="span_title">xxx</span>,欢迎登录学生信息管理系统！
+        </p>
+        <div style="height: 460px;">
+          <div class="layui-tab-item layui-show layui-col-md8"
+               style="
+                        /*margin-left: 100px;*/
+                        margin-top: 20px;
+                        /* border: rgb(25, 0, 255) solid; */
+                        /*width: 680px;*/
+                        height: 250px;
+                        background-color: white
+                        ;">
+            <div style="text-align: left;
+                    font-size: 15px;
+                    padding: 30px;
+                    ">
+              <p>个人信息</p>
+              <hr>
+              <br>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_username">xxx</span></p><br>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_name">xxx</span></p><br>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;联系电话:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_tel">xxx</span></p><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="layui-tab-item">内容2</div> -->
+    </div>
+  </div>
+  
+  </div>
+  <!-- 手机模式下填补空缺块 -->
+  <div id="fill">
+    <div style="margin-top: 14px;">
+      <span style="padding-top: 5px;">Copyright &copy;&nbsp;2022 &nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="layui-footer" id="footer">
+    <!-- 底部固定区域 -->
+    Copyright &copy;&nbsp;2022 &nbsp;&nbsp;
+  </div>
+</div>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+//JS 
+layui.use(['element', 'layer', 'util'], function(){
+  var element = layui.element
+  ,layer = layui.layer
+  ,util = layui.util
+  ,$ = layui.$;
+  var flag = true;//定义一个标记  侧边栏展开状态
+  // 关闭点击左侧导航跳转页面默认行为事件
+  $(document).ready(function(){
+    $("dd>a,.index").click(function(e){
+        e.preventDefault();//关闭默认行为
+        // //设置iframe的src值
+        // $('#main').attr("src",$(this).attr("href"));
+    });
+  });
+
+  //入口函数
+  $(function () {
+    $.post("user/isLogin",{},function (data) {
+      $("#span_username").html(data.user.username);
+      $("#span_name").html(data.user.name);
+      $("#span_tel").html(data.user.tel);
+      $("#span_top_username").html(data.user.name);
+      $("#span_title").html(data.user.name);
+
+    });
+  });
+
+  //头部事件
+  util.event('lay-header-event', {
+    //手机模式下-左侧菜单事件
+    menuLeft: function(othis){
+      
+      var ui =document.getElementById("tree");
+      if (flag) {
+        //关闭侧边栏
+        ui.style.display="none";//隐藏
+        //使body左移 即删除class="layui-body"
+        var body = $("#body");
+        body.removeClass('layui-body');
+        //将footer中内容去掉
+        $('#footer').empty();
+        // 设置状态为关闭
+        flag = false;
+        layer.msg('侧边菜单已关闭',{time: 1000});
+      }else {
+        //打开侧边栏
+        ui.style.display="block";//显示
+        $("#body").addClass('layui-body');//使body还原 即添加class="layui-body"
+        $('#footer').html('Copyright &copy;&nbsp;2022 &nbsp;&nbsp;');//将footer中内容还原
+        flag = true;
+        layer.msg('侧边菜单已打开',{time: 1000});
+      }
+
+    }
+    ,menuRight: function(){
+      layer.open({
+        type: 1
+        ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+        ,area: ['260px', '100%']
+        ,offset: 'rt' //右上角
+        ,anim: 5
+        ,shadeClose: true
+      });
+    }
+  });
+  
+  //左侧导航栏 和 上方首页点击事件
+  $('.site-demo-active').on('click', function(data){
+    var dataid = $(this);
+    var str = dataid.attr("data-id");
+    
+    // layer.msg(str);
+    //这时会判断右侧.layui-tab-title属性下的li下的lay-id属性的的数目，即已经打开的tab项数目
+    if ($(".layui-tab-title li[lay-id="+str+"]").length <= 0) {
+      //设置iframe的src值
+      // $('#main').attr("src",$(this).attr("href"));
+      
+      //如果比零小，则直接打开新的tab项
+      active.tabAdd(dataid.attr("data-url"),dataid.attr("data-id"),dataid.attr("data-title"));
+      //新建tab后立即打开该tab
+      active.tabChange(dataid.attr("data-id"));
+    }else{
+      active.tabChange(dataid.attr("data-id"));//选项卡已存在时，再次点击导航，执行切换选项卡操作
+    }
+
+  });
+  //tab触发事件
+  var active = {
+    tabAdd: function(url,id,name){
+        
+      //新增一个Tab项
+      element.tabAdd('demo', {
+        title: name //用于演示
+        ,content: '<iframe tab-id="'+id+'" frameborder="0" src="'+url+'" scrolling="auto" style="width:100%;height:524px" class="x-iframe"></iframe>'
+        ,id: id //设置tab的lay-id属性值
+      })
+    }
+    ,tabDelete: function(othis){
+      
+    }
+    ,tabChange: function(id){ //该id与侧边导航中a标签的data-id对应
+      
+      //切换到指定Tab项
+      element.tabChange('demo', id); 
+      
+    }
+    
+  };
+  // 切换账号事件
+  $("#tips").click(function (params) {
+    layer.open({
+      title: '切换账号',
+      maxmin: true,
+      shadeClose:true,
+      moveOut: true,
+      // skin:'layui-layer-lan',
+      type: 2, 
+      content: '/login',//这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+      area: ['1290px', '644px'],
+      anim:0
+    });      
+ });
+
+  // 个人信息事件
+  $("#tips2").click(function (params) {
+    layer.open({
+      title: false,
+      // maxmin: true,
+      shadeClose:true,
+      // skin:'layui-layer-lan',
+      type: 2,
+      content: ['/massage','no'],//这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+      area: ['750px', '300px'],
+      anim:0,
+
+      moveOut: true,
+    });
+  });
+  // tab切换事件
+  // element.on('tab(demo)', function(data){
+  //       // layer.msg("aaa")
+  //       var layid = $(this).attr('lay-id');
+  //       var _href = '';
+  //       console.log('当前Tab的所在下标：'+data.index); //得到当前Tab的所在下标
+  //       console.log('当前Tab的lay-id值：'+layid); //当前Tab的layid值
+  //       // if(data.index == 0){  //首页Tab的lay-id值获取不出，用下标值代替
+  //       //   _href = 'index.html'
+  //       // }else if(layid == 1){
+  //       //   _href = 'list.html'
+  //       // }
+  //       // //设置iframe的src值
+  //       // $('#main').attr("src",_href);
+  // });
+
+});
+</script>
+</body>
+</html>

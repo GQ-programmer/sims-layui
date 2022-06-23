@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin</title>
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" />
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<style>
+    img{
+        -webkit-user-drag: none;
+    }
+    body{
+        background-color: #524f4f57;
+        /*background-image: url('img/bg.jpg');*/
+    }
+    .be-content{
+        
+        max-width: 800px;
+        /* height: 1000px; */
+        margin: 30px auto;
+        /* background-color: #ffffff; */
+        /* border: red solid; */
+        padding-bottom: 20px;
+        
+    }
+    .content{
+        margin: 0 auto;
+        /* border: red solid; */
+        width: 750px;
+        height: 450px;
+        text-align: center;
+    }
+    ._content{
+        /* border: red solid; */
+        width: 360px;
+        height: 250px;
+        float: left;
+        margin: 5px;
+    }
+    ._content img{
+        width: 200px;
+    }
+</style>
+<body>
+    <div class="be-content">
+        <div class="content">
+            <!-- <h2 style="font-family: 华文行楷;"></h2> -->
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;font-family: 华文行楷;">
+                <legend>请使用以下方式联系管理员</legend>
+              </fieldset>
+            <div class="_content">
+                <fieldset class="layui-elem-field">
+                    <legend>
+                        <p>
+                            <i class="layui-icon">
+                                &#xe677;&nbsp;&nbsp;
+                            </i>
+                            WeChat
+                        </p>
+                    </legend>
+                    <div class="layui-field-box">
+                        
+                        <img th:src="@{/img/code_weixin.jpg}" alt="">
+                    </div>
+                </fieldset>   
+            </div>
+            <div class="_content">
+                <fieldset class="layui-elem-field">
+                    <legend>
+                        <p>
+                            <i class="layui-icon">
+                                &#xe676;&nbsp;&nbsp;
+                            </i>
+                            QQ
+                        </p>
+                    </legend>
+                    <div class="layui-field-box">
+                        
+                        <img th:src="@{/img/code_qq.jpg}">
+                    </div>
+                </fieldset>   
+            </div>
+            
+            <div>
+                <p style="font-family: 华文行楷;font-size: 18px;">&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            </div>
+            <div style="margin-top: 20px;height: 50px;">
+                <div style="height: 50px;">
+                    <div style="font-family: 华文行楷;font-size: 18px;">添加联系方式时，请备注来源</div>
+                </div>
+            </div>
+            
+        </div>
+
+        
+    </div>
+
+</body>
+</html>

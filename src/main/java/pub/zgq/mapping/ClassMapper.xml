@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.ClassDao">
+
+    <!--班级人员信息查询信息-->
+    <resultMap type="Class" id="cardAndInfo2">
+        <id property="c_id" column="c_id"/>
+        <result property="c_classId" column="c_classId"/>
+        <result property="c_className" column="c_className"/>
+        <result property="c_counsellor" column="c_counsellor"/>
+
+    </resultMap>
+
+    <select id="selectAll" parameterType="class" resultMap="cardAndInfo2">
+        select * from s_class
+        <where>
+            <if test="c_className!=null and c_className!='' ">
+                and  c_className like  '%${c_className}%'
+            </if>
+            <if test="c_counsellor!=null and c_counsellor!=''">
+                and  c_counsellor like '%${c_counsellor}%'
+            </if>
+
+        </where>
+    </select>
+    <select id="findOne" parameterType="string" resultType="class">
+        select * from s_class where c_classId = #{c_classId}
+    </select>
+
+    <insert id="insertClass">
+        insert into s_class (c_classId, c_className, c_counsellor)
+        values (#{c_classId}, #{c_className}, #{c_counsellor});
+    </insert>
+
+    <update id="updateClassById" parameterType="class">
+        update s_class set c_classId = #{c_classId},c_className = #{c_className}
+                           ,c_counsellor = #{c_counsellor}
+        where c_id = #{c_id}
+    </update>
+
+    <delete id="delClassById" parameterType="string">
+        delete from s_class where c_id = #{c_id}
+    </delete>
+    
+</mapper>

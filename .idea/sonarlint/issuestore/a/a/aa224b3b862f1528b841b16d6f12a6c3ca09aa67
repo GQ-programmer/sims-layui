@@ -1,0 +1,13 @@
+
+D
+java:S1125="'Remove the unnecessary boolean literal.(«¸ş•8ò›Ú—0
+I
+java:S1125@"'Remove the unnecessary boolean literal.(Õœêüüÿÿÿÿ8ö›Ú—0
+S
+java:S1128"1Remove this unused import 'pub.zgq.dao.ClassDao'.(úåÿ‡ıÿÿÿÿ8ÿ›Ú—0
+m	java:S117#"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Õòó¾8Š›Ú—0
+r	java:S117/"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©§ÉÆøÿÿÿÿ8Š›Ú—0
+r	java:S117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ş­Ãíûÿÿÿÿ8‹›Ú—0
+r	java:S117L"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´”É–ùÿÿÿÿ8Œ›Ú—0
+Y
+java:S2589@"7Remove this expression which always evaluates to "true"(Õœêüüÿÿÿÿ8æ‘›Ú—0

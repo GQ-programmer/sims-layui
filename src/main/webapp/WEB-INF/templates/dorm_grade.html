@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宿舍卫生</title>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <link rel="shortcut icon" th:href="@{/img/favicon.ico}" />
+  <script th:src="@{/layui/layui.js}"></script>
+</head>
+
+
+<body>
+<div class="layui-fluid" style="padding-top: 10px;">
+  <!-- 搜索框 -->
+  <div class="demoTable">
+    <div class="layui-inline">
+      <input class="layui-input" name="d_dormitoryid" id="demoReload" placeholder="请输入宿舍号" autocomplete="off">
+    </div>
+    <div class="layui-inline">
+      <input class="layui-input" name="d_dormbuilding" id="demoReload2" placeholder="请输入楼号" autocomplete="off">
+    </div>
+    <div class="layui-btn" id="searchBtn">
+      <i class="layui-icon">
+        &#xe615;
+      </i>
+    </div>
+  </div>
+  <!--定义表格-->
+  <table id="table1" lay-filter="test"></table>
+
+  <!-- 行内工具栏 -->
+  <script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  </script>
+  <!-- 表头工具栏 -->
+  <script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <button id="addStu" class="layui-btn layui-btn-normal" lay-event="addDorm_grade">
+        <i class="layui-icon">
+          &#xe624;&nbsp;
+        </i>添加
+      </button>
+      <!-- <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button> -->
+      <button id="export_table" class="layui-btn  layui-btn-warm" lay-event="isAll">
+        <i class="layui-icon">
+          &#xe67d;&nbsp;
+        </i>
+        导出
+      </button>
+    </div>
+  </script>
+</div>
+
+
+<!--修改模态框-->
+<div class="layui-row" id="test" style="display: none;">
+  <div class="layui-col-md10">
+    <form class="layui-form" id="addEmployeeForm">
+
+      <div class="layui-form-item" hidden>
+        <label class="layui-form-label">宿舍ID:</label>
+        <div class="layui-input-block">
+          <input id="text_dg_id" type="text" name="dg_id" class="layui-input" hidde>
+        </div>
+      </div>
+
+
+
+      <div class="layui-form-item" style="margin-top: 10px;">
+        <label class="layui-form-label" style="width: 100px;">宿舍卫生分数:</label>
+
+        <div class="layui-input-inline">
+          <input id="text_dorm_grade" type="text" name="dorm_grade" class="layui-input">
+        </div>
+      </div>
+
+
+      <div class="layui-form-item">
+        <div class="layui-input-block" style="margin-left: 130px;">
+          <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">提交
+          </button>
+          <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--添加窗口模态框 - 点击编辑弹出-->
+<div class="layui-row" id="test2" style="display: none;">
+  <div class="layui-col-md10">
+    <form class="layui-form">
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">宿舍楼号:</label>
+        <div class="layui-input-block">
+          <input type="text" name="d_dormbuilding" class="layui-input" lay-verify="required">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">宿舍号:</label>
+        <div class="layui-input-block">
+          <input type="text" name="d_dormitoryid" class="layui-input" lay-verify="required">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">宿舍卫生分数:</label>
+        <div class="layui-input-block">
+          <input type="text" name="dorm_grade" class="layui-input" lay-verify="required">
+        </div>
+      </div>
+
+
+
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo2">提交
+          </button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  layui.use(['table', 'form', 'layer'], function () {
+    var layer = layui.layer;
+    var table = layui.table;
+    var form = layui.form;
+    var $ = layui.jquery;//获取jquery对象
+
+    table.render({
+      elem: '#table1'
+      , title: '宿舍卫生记录'
+      , url: '/dormGrade/findAll'
+      , height: 'full'
+      , page: true  //开启分页
+      , limits: [5, 10, 15]
+      //设置表格头工具栏
+      , toolbar: "#toolbarDemo"
+      , id: 'idTest'
+      , defaultToolbar: ['print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+        title: '提示'
+        , layEvent: 'LAYTABLE_TIPS'
+        , icon: 'layui-icon-tips'
+      }]
+      , cols: [
+        [ //表头
+          //设置序列号
+          { field: 'aa', type: 'numbers' },
+          // // 设置复选框
+          // {field: 'aa',type:'checkbox'},
+          { field: 'dg_id', title: 'ID', sort: true, align: 'center',hide: 'true' }
+          , { field: 'd_dormbuilding', title: '宿舍楼号', align: 'center' }
+          , { field: 'd_dormitoryid', title: '宿舍号', align: 'center' }
+          , { field: 'dorm_grade', title: '宿舍卫生分数', align: 'center' }
+          , { field: 'update_time', title: '更新日期', align: 'center' }
+          , { field: "操作", toolbar: "#barDemo", align: 'center' }//行内工具栏
+        ]
+      ]
+      // , data: [
+      //   { "dg_id": "1", "d_dormitoryid": "210", "d_dormbuilding": "南6", "dorm_grade": "8", "update_time": "2022-6-19 19:35"},
+      //   { "dg_id": "1", "d_dormitoryid": "210", "d_dormbuilding": "南6", "dorm_grade": "8", "update_time": "2022-6-19 19:35"},
+      //   { "dg_id": "1", "d_dormitoryid": "210", "d_dormbuilding": "南6", "dorm_grade": "8", "update_time": "2022-6-19 19:35"},
+      //   { "dg_id": "1", "d_dormitoryid": "210", "d_dormbuilding": "南6", "dorm_grade": "8", "update_time": "2022-6-19 19:35"},
+      //   { "dg_id": "1", "d_dormitoryid": "210", "d_dormbuilding": "南6", "dorm_grade": "8", "update_time": "2022-6-19 19:35"}
+      // ]
+    });
+
+
+    //导出数据
+    //导出事件
+    $('#export_table').on('click', function () {
+      //使用ajax请求获取所有数据
+      $.ajax({
+        url: "/dormGrade/findAll",
+        type: 'post',
+        data: {
+          type: 1
+        },
+        async: false,
+        dataType: 'json',
+        success: function (res) {
+          //使用table.exportFile()导出数据
+          //  idTest 表格id
+          // res  导出结果
+          // xls 类型
+          table.exportFile('idTest', res.data, 'xls');
+        }
+      });
+      layer.msg("已导出");
+    });
+
+    // 监听头工具栏事件(添加事件)
+    table.on('toolbar(test)', function (obj) {
+      // console.log('容器对象：');
+      // console.log(obj);
+      // //从obj.config对象中获取当前容器id属性值
+      // // 获取当前表格被选中记录对象，返回数据
+      // var checkStatus = table.checkStatus(obj.config.id);
+      // console.log('被选中记录对象:');
+      // console.log(checkStatus);
+      //获取事件名，执行对应操作
+      var eventName = obj.event;
+      // 判断
+      switch (eventName) {
+        case 'addDorm_grade':
+          // layer.msg('添加按钮被点击了')
+          //弹出添加窗口
+          layer.open({
+            type: 1,
+            title: "添加宿舍卫生记录",
+            skin: "myclass",
+            area: ["50%"],
+            anim: 2,
+            content: $("#test2"),
+            success: function () {
+              // 提交表单
+              form.on('submit(formDemo2)', function (data) {
+                console.log(data.field);
+                // 发送异步请求
+                $.get("dormGrade/addDormGrade", data.field, function (params) {
+                  if (params.flag) {
+                    layer.msg(params.msg);
+                  } else if (!params.flag) {
+                    layer.msg(params.msg);
+                  }
+                  //重载当前数据表格
+                  table.reload('idTest');
+                  // $('#searchBtn').click();//刷新
+                });
+              });
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    });
+
+    /*
+      监听行工具栏事件（编辑和删除）
+    */
+    table.on('tool(test)', function (obj) {
+      var data = obj.data; //获得当前行数据
+      console.log(data);
+      var layEvent = obj.event; //获得 lay-event 对应的值
+      console.log(layEvent);
+
+      //判断事件名，执行相应操作
+      if (layEvent == 'del') {//删除操作
+        //弹出确认框
+        layer.confirm('您确认要删除该行记录吗?', function (index) {
+          // 删除指定数据
+          obj.del();
+          //index为弹出层的下标
+          layer.close(index);
+          //发送异步请求，删除该行数据
+          $.get('dormGrade/delDormGrade', { dg_id: data.dg_id }, function (params) {
+            layer.msg("删除成功!")
+          });
+        });
+      } else if (layEvent == 'edit') { //编辑
+        // 弹出修改窗口
+        var index1 = layer.open({
+          type: 1,
+          title: "修改" + data.d_dormitoryid + "的信息",
+          skin: "myclass",
+          area: ["40%"],
+          anim: 2,
+          content: $("#test"),
+          success: function () {
+            //表单回显
+            $("#text_dg_id").val(data.dg_id);
+            $("#text_dorm_grade").val(data.dorm_grade);
+
+            // 提交表单
+            form.on('submit(formDemo)', function (data) {
+              console.log(data.field);
+              // 发送异步请求
+              $.get("dormGrade/updateDormGrade", data.field, function (params) {
+                if (params.flag) {
+                  layer.msg(params.msg);
+                }
+                //重载当前数据表格
+                table.reload('idTest');
+                // $('#searchBtn').click();//刷新
+              });
+              //关闭当前弹窗
+              layer.close(index1);
+            });
+          }
+        });
+      }
+    });
+    /*
+     监听单元格编辑事件
+   */
+    // table.on('edit(test)', function (obj) {
+    //   //行对象
+    //   console.log(obj);
+    //   //获取修改后的值
+    //   var value = obj.value;
+    //   //得到修改的行的数据对象
+    //   var data = obj.data;
+    //   //得到修改的字段名
+    //   var field = obj.field;
+    //
+    //   layer.msg("【ID：" + data.c_classid + "】的" + field + "字段的只修改为：" + value)
+    //
+    // });
+    /*
+        给搜索框绑定事件
+        */
+    $(document).on('click', '#searchBtn', function (data) {
+      // layer.msg("aa");
+      //获取搜索文本框对象
+      var d_dormitoryid = $("#demoReload");
+      var d_dormbuilding = $("#demoReload2");
+      // layer.msg(sreach.val());
+      //调用重载方法
+      table.reload('idTest', {
+
+        where: { //设定异步数据接口的额外参数，任意设
+          d_dormitoryid: d_dormitoryid.val(),
+          d_dormbuilding: d_dormbuilding.val(),
+        }
+        , page: {
+          curr: 1 //重新从第 1 页开始,如未设置则从当前页开始查询，此页之前的所有数据不查询
+        }
+      }); //只重载数据
+    });
+
+
+  });
+</script>
+</body>
+
+</html>

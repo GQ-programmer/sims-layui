@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.VisitorDao">
+    <insert id="insertOne" parameterType="visitor" >
+        insert into s_visitor (v_name, v_phone, v_dormbuilding, v_dormitoryid, create_time)
+        values (#{v_name}, #{v_phone}, #{v_dormbuilding}, #{v_dormitoryid}, #{create_time})
+    </insert>
+    <delete id="deleteVistor" parameterType="string">
+        delete from s_visitor where v_id = #{v_id}
+    </delete>
+
+    <select id="selectAll" parameterType="visitor" resultType="pub.zgq.pojo.Visitor">
+        select * from s_visitor
+        <where>
+            <if test="v_dormbuilding!=null and v_dormbuilding!='' ">
+                and  v_dormbuilding like  '%${v_dormbuilding}%'
+            </if>
+            <if test="v_dormitoryid !=null and v_dormitoryid !=''">
+                and  v_dormitoryid  like '%${v_dormitoryid }%'
+            </if>
+
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>massage</title>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <link rel="shortcut icon" th:href="@{/img/favicon.ico}" />
+  <script th:src="@{/layui/layui.js}"></script>
+  <script th:src="@{/js/jquery.js}"></script>
+</head>
+<body>
+<div style="height: 518px;">
+  <div class="layui-tab-item layui-show"
+       style="
+                  width: 700px;
+                  height: 250px;
+                  background-color: white
+                  ;">
+    <div style="text-align: left;
+              font-size: 15px;
+              padding: 30px;
+              ">
+      <p>个人信息</p>
+      <hr>
+      <br>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;用户名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_username">xxx</span></p><br>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_name">xxx</span></p><br>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;联系电话:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_tel">xxx</span></p><br>
+    </div>
+  </div>
+</div>
+
+<script>
+   //入口函数
+   $(function () {
+     $.post("user/isLogin",{},function (data) {
+       $("#span_username").html(data.user.username);
+       $("#span_name").html(data.user.name);
+       $("#span_tel").html(data.user.tel);
+       $("#span_title").html(data.user.name);
+
+     });
+
+  });
+</script>
+</body>
+</html>

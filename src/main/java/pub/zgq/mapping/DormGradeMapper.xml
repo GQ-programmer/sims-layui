@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.DormGradeDao">
+    <insert id="insertOne" parameterType="dormGrade">
+        insert into s_dormgrade (d_dormbuilding, d_dormitoryid, dorm_grade, update_time)
+        values (#{d_dormbuilding}, #{d_dormitoryid}, #{dorm_grade}, #{update_time})
+    </insert>
+
+    <update id="updateDormGrade" parameterType="dormGrade">
+        update s_dormgrade set dorm_grade = #{dorm_grade}, update_time = #{update_time} where dg_id =#{dg_id}
+    </update>
+    <delete id="deleteDormGrade" parameterType="string">
+        delete from s_dormgrade where dg_id = #{dg_id}
+    </delete>
+
+
+    <select id="selectAll" parameterType="dormGrade" resultType="pub.zgq.pojo.DormGrade">
+        select * from s_dormgrade
+        <where>
+            <if test="d_dormbuilding!=null and d_dormbuilding!='' ">
+                and  d_dormbuilding like  '%${d_dormbuilding}%'
+            </if>
+            <if test="d_dormitoryid!=null and d_dormitoryid!=''">
+                and  d_dormitoryid like '%${d_dormitoryid}%'
+            </if>
+
+        </where>
+    </select>
+    <select id="selectOne" resultType="pub.zgq.pojo.DormGrade">
+        select * from s_dormgrade where d_dormitoryid = #{d_dormitoryid} and d_dormbuilding = #{d_dormbuilding}
+    </select>
+</mapper>

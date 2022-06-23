@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pub.zgq.dao.DormitoryDao">
+    <insert id="insertOne" parameterType="dormitory">
+        insert into s_dormitory(d_dormbuilding, d_dormitoryid, d_bedtotal, d_bed, d_dormitoryhead, d_phone, d_dormitorycategory)
+            values (#{d_dormbuilding}, #{d_dormitoryid}, #{d_bedtotal},#{d_bed}, #{d_dormitoryhead}, #{d_phone},
+                    #{d_dormitorycategory})
+    </insert>
+    <update id="updateByD_id" parameterType="dormitory">
+        update s_dormitory set d_bedtotal = #{d_bedtotal},d_bed = #{d_bed},d_dormitoryhead = #{d_dormitoryhead}
+                       ,d_phone = #{d_phone},d_dormitorycategory = #{d_dormitorycategory}
+        where d_id = #{d_id}
+    </update>
+    <delete id="deleteDorm">
+        delete from s_dormitory where d_id = #{d_id}
+    </delete>
+
+
+    <select id="selectAll" parameterType="dormitory" resultType="dormitory">
+        select * from s_dormitory
+        <where>
+            <if test="d_dormbuilding!=null and d_dormbuilding!='' ">
+                and  d_dormbuilding like  '%${d_dormbuilding}%'
+            </if>
+            <if test="d_dormitoryid!=null and d_dormitoryid!=''">
+                and  d_dormitoryid like '%${d_dormitoryid}%'
+            </if>
+
+        </where>
+    </select>
+    <select id="selectOne"  resultType="pub.zgq.pojo.Dormitory" >
+        select * from s_dormitory where d_dormitoryid = #{d_dormitoryid} and d_dormbuilding = #{d_dormbuilding}
+    </select>
+
+
+</mapper>
